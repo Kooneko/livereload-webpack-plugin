@@ -16,11 +16,11 @@ Add the plugin to your webpack config
 ```js
 // webpack.config.js
 
-var LiveReloadPlugin = require('livereload-webpack-plugin');
+var LiveReloadWebpackPlugin = require('livereload-webpack-plugin');
 
 module.exports = {
   plugins: [
-    new LiveReloadPlugin(options)
+    new LiveReloadWebpackPlugin(options)
   ]
 }
 ```
