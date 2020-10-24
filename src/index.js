@@ -66,7 +66,7 @@ module.exports = class LiveReloadWebpackPlugin {
     }
 
     listen(callback) {
-        this.server = servers[this.port] = tinylr(this.options);
+        this.server = servers[this.options.port] = tinylr(this.options);
 
         this.server.listen(this.options.port, (err) => {
             if (!err || !this.options.quiet) {
