@@ -45,7 +45,7 @@ Add a script tag to your page pointed at the livereload server
 | `appendScript` | false | Append livereload `<script>` automatically to `<head>` |
 | `delay` | `0` | amount of milliseconds by which to delay the live reload (in case build takes longer) |
 | `ignore` | `null` | RegExp of files to ignore. Null value means ignore nothing. It is also possible to define an array and use multiple [anymatch](https://github.com/micromatch/anymatch) patterns |
-| `useSourceHash` | `false` | create hash for each file source and only notify livereload if hash has changed |
+| `useSourceHash` | `false` | [WEBPACK 4 ONLY!] create hash for each file source and only notify livereload if hash has changed |
 
 ## Why?
 

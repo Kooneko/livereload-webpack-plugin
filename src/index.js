@@ -102,9 +102,10 @@ module.exports = class LiveReloadWebpackPlugin {
 
     fileIgnoredOrNotEmitted(data) {
         if (Array.isArray(this.options.ignore)) {
-            return !anymatch(this.options.ignore, data[0]) && data[1].emitted;
+            return !anymatch(this.options.ignore, data.name) && data.emitted;
         }
-        return !data[0].match(this.options.ignore) && data[1].emitted;
+
+        return !data.name.match(this.options.ignore) && data.emitted;
     }
 
     fileHashDoesntMatches(data) {
@@ -112,24 +113,45 @@ module.exports = class LiveReloadWebpackPlugin {
             return true;
         }            
 
-        const sourceHash = generateHashCode(data[1].source());
-        if (this.sourceHashs.hasOwnProperty(data[0])
-            && (this.sourceHashs[data[0]] === sourceHash)) {
-            return false;
-        }
+        if (isWebpack4) {
+            const sourceHash = generateHashCode(data[1].source());
+            if (this.sourceHashs.hasOwnProperty(data[0])
+                && (this.sourceHashs[data[0]] === sourceHash)) {
+                return false;
+            }
 
-        this.sourceHashs[data[0]] = sourceHash;
-        return true;
+            this.sourceHashs[data[0]] = sourceHash;
+            return true;
+        } else {
+            // NOTE : in webpack 5, asset object has change 
+            //        and source() method does not exist anymore            
+            return true; // Temporary workaround
+        }
     };
 
     done(stats) {
-        const hash = stats.compilation.hash;
-        const childHashes = (stats.compilation.children || []).map(child => child.hash);
+        const { hash, assets, children } = stats.compilation;
+        const childHashes = (children || []).map(child => child.hash);
+        let files = assets
 
-        const include = Object.entries(stats.compilation.assets)
+        if (!isWebpack4) {
+            const emittedAssets = stats.compilation.emittedAssets
+            files = Object.keys(assets).map(asset => ({
+                name: asset,
+                emitted: emittedAssets.has(asset)
+            }));
+        }
+
+        const include = files
             .filter(this.fileIgnoredOrNotEmitted.bind(this))
             .filter(this.fileHashDoesntMatches.bind(this))
-            .map((data) => data[0]);
+            .map((data) => data.name);
+        
+        if (!this.isRunning() && Object.keys(servers).length > 0) {
+            // Workaround : this.server = undefined after first compilation
+            // NOTE : This workaround break the proper functioning of multiple instance 
+            this.server = servers[Object.keys(servers)[0]];
+        }
 
         if (this.isRunning() && (hash !== this.lastHash || !arraysEqual(childHashes, this.lastChildHashes)) && include.length > 0) {
             this.lastHash = hash;
