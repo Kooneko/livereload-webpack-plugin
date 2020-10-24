@@ -1,0 +1,25 @@
+{
+  "name": "livereload-webpack-plugin",
+  "version": "1.0.0",
+  "description": "Livereload for Webpack 5+",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "webpack",
+    "livereload"
+  ],
+  "author": "Kevin Blossier",
+  "license": "ISC",
+  "devDependencies": {
+    "jest": "^26.6.1"
+  },
+  "dependencies": {
+    "anymatch": "^3.1.1",
+    "crypto": "^1.0.1",
+    "get-port": "^5.1.1",
+    "tiny-lr": "^2.0.0",
+    "webpack": "^5.2.0"
+  }
+}
