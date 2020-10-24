@@ -1,5 +1,5 @@
 {
-  "name": "livereload-webpack-plugin",
+  "name": "@kooneko/livereload-webpack-plugin",
   "version": "1.0.0",
   "description": "Livereload for Webpack 5+",
   "main": "src/index.js",

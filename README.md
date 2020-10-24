@@ -8,7 +8,7 @@ This plugin is compatible wih Webpack 4 & Webpack 5
 Install the package
 
 ```sh
-npm install --save-dev livereload-webpack-plugin
+npm install --save-dev @kooneko/livereload-webpack-plugin
 ```
 
 Add the plugin to your webpack config
@@ -16,7 +16,7 @@ Add the plugin to your webpack config
 ```js
 // webpack.config.js
 
-var LiveReloadWebpackPlugin = require('livereload-webpack-plugin');
+var LiveReloadWebpackPlugin = require('@kooneko/livereload-webpack-plugin');
 
 module.exports = {
   plugins: [
