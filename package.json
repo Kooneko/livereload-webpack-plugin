@@ -6,12 +6,19 @@
   "scripts": {
     "test": "jest"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kooneko/livereload-webpack-plugin.git"
+  },
   "keywords": [
     "webpack",
     "livereload"
   ],
   "author": "Kevin Blossier",
   "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kooneko/livereload-webpack-plugin/issues"
+  },
   "devDependencies": {
     "jest": "^26.6.1"
   },
