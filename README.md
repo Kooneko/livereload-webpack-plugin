@@ -1,5 +1,7 @@
 # livereload-webpack-plugin
 
+[![Build Status](https://travis-ci.org/Kooneko/livereload-webpack-plugin.svg?branch=main)](https://travis-ci.org/Kooneko/livereload-webpack-plugin)
+
 This plugin for Webpack is based from statianzo's plugin : [webpack-livereload-plugin](https://github.com/statianzo/webpack-livereload-plugin)  
 This plugin is compatible wih Webpack 4 & Webpack 5
 
