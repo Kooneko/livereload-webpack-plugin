@@ -45,7 +45,6 @@ Add a script tag to your page pointed at the livereload server
 | `appendScript` | `false` | Append livereload `<script>` automatically to `<head>` |
 | `delay` | `0` | amount of milliseconds by which to delay the live reload (in case build takes longer) |
 | `ignore` | `null` | RegExp of files to ignore. Null value means ignore nothing. It is also possible to define an array and use multiple [anymatch](https://github.com/micromatch/anymatch) patterns |
-| `useSourceHash` | `false` | [WEBPACK 4 ONLY!] create hash for each file source and only notify livereload if hash has changed |
 
 ## Why?
 
@@ -64,9 +63,5 @@ serve over HTTPS. You'll also also set `protocol` to `https`.
 
 ##### Webpack always generates js and css together
 
-If your webpack is always generating js and css files together you could set 
-`useSourceHash` to `true` to generate a hash for each changed asset and it 
-should prevent multiple reloads. 
-
-Alternatively if this slows your build process you could set `liveCSS` 
+If this slows your build process you could set `liveCSS` 
 and `liveImg` to `false` to prevent multiple reloads.

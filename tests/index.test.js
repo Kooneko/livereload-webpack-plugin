@@ -168,57 +168,6 @@ test('filters out ignored files as array', function (done) {
     plugin.done(stats);
 });
 
-test('filters out hashed files', function (done) {
-    function hashCode(str) {
-        const hash = crypto.createHash('sha256');
-        hash.update(str);
-        return hash.digest('hex');
-    }
-
-    const plugin = new LiveReloadWebpackPlugin({
-        useSourceHash: true,
-    });
-    const stats = {
-        compilation: {
-            assets: {
-                'b.js': {
-                    emitted: true,
-                    source: function () {
-                        return "fdsa";
-                    },
-                },
-                'a.js': {
-                    emitted: true,
-                    source: function () {
-                        return "asdf";
-                    },
-                },
-            },
-            children: []
-        }
-    };
-
-    if (!isWebpack4) {
-        stats.compilation.assets = {
-            'b.js': { key: 'value' },
-            'a.js': { key: 'value' }
-        };
-        stats.compilation.emittedAssets = new Set(['b.js', 'a.js']);
-    }
-
-    plugin.sourceHashs = {
-        'b.js': 'Wrong hash',
-        'a.js': hashCode('asdf'),
-    };
-    plugin.server = {
-        notifyClients: function (files) {
-            expect(files.sort()).toEqual(isWebpack4 ? ['b.js'] : ['a.js', 'b.js']);
-            done()
-        }
-    };
-    plugin.done(stats);
-});
-
 test('children trigger notification', () => {
     const plugin = new LiveReloadWebpackPlugin();
     const stats = {
