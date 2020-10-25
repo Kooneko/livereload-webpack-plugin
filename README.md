@@ -39,10 +39,10 @@ Add a script tag to your page pointed at the livereload server
 | Option | Default | Description |
 | --- | --- | --- |
 | `protocol` | protocol of the page, either `http` or `https` | Protocol for livereload `<script>` src attribute value |
-| `port` | 35729 | The desired port for the livereload server. If you not define port, an available port will be searched for, starting from 35729 |
+| `port` | `35729` | The desired port for the livereload server. If you not define port, an available port will be searched for, starting from 35729 |
 | `hostname` | hostname of the page, like `localhost` or `10.0.2.2` | The desired hostname for the appended `<script>` (if present) to point to |
 | `quiet` | `false` | Prevent message " Live reload listening on port ..." from appearing in the console |
-| `appendScript` | false | Append livereload `<script>` automatically to `<head>` |
+| `appendScript` | `false` | Append livereload `<script>` automatically to `<head>` |
 | `delay` | `0` | amount of milliseconds by which to delay the live reload (in case build takes longer) |
 | `ignore` | `null` | RegExp of files to ignore. Null value means ignore nothing. It is also possible to define an array and use multiple [anymatch](https://github.com/micromatch/anymatch) patterns |
 | `useSourceHash` | `false` | [WEBPACK 4 ONLY!] create hash for each file source and only notify livereload if hash has changed |
