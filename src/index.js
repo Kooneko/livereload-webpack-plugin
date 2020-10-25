@@ -146,7 +146,7 @@ module.exports = class LiveReloadWebpackPlugin {
             .filter(this.fileIgnoredOrNotEmitted.bind(this))
             .filter(this.fileHashDoesntMatches.bind(this))
             .map((data) => data.name);
-        
+
         if (!this.isRunning() && Object.keys(servers).length > 0) {
             // Workaround : this.server = undefined after first compilation
             // NOTE : This workaround break the proper functioning of multiple instance 

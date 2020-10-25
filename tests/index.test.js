@@ -1,6 +1,9 @@
 const crypto = require('crypto');
+const { version } = require('webpack')
 const LiveReloadWebpackPlugin = require('../src/index');
 const autoloadScript = require('../src/autoloadScript');
+
+const isWebpack4 = version[0] === '4';
 
 test('default options', () => {
     const plugin = new LiveReloadWebpackPlugin();
@@ -74,6 +77,17 @@ test('notifies when done', function (done) {
             children: []
         }
     };
+
+    if (!isWebpack4) {
+        stats.compilation.assets = {
+            'b.js': { key: 'value' },
+            'a.js': { key: 'value' },
+            'c.css': { key: 'value' },
+            'd.css': { key: 'value' }
+        };
+        stats.compilation.emittedAssets = new Set(['b.js', 'a.js', 'c.css']);
+    }
+
     plugin.server = {
         notifyClients: function (files) {
             expect(files.sort()).toEqual(['a.js', 'b.js', 'c.css']);
@@ -99,6 +113,17 @@ test('filters out ignored files', function (done) {
             children: []
         }
     };
+
+    if (!isWebpack4) {
+        stats.compilation.assets = {
+            'b.js': { key: 'value' },
+            'a.js': { key: 'value' },
+            'c.css': { key: 'value' },
+            'd.css': { key: 'value' }
+        };
+        stats.compilation.emittedAssets = new Set(['b.js', 'a.js', 'c.css']);
+    }
+
     plugin.server = {
         notifyClients: function (files) {
             expect(files.sort()).toEqual(['a.js', 'b.js']);
@@ -123,6 +148,17 @@ test('filters out ignored files as array', function (done) {
             children: []
         }
     };
+
+    if (!isWebpack4) {
+        stats.compilation.assets = {
+            'b.js': { key: 'value' },
+            'a.js': { key: 'value' },
+            'c.map': { key: 'value' },
+            'd.json': { key: 'value' }
+        };
+        stats.compilation.emittedAssets = new Set(['b.js', 'a.js', 'c.map', 'd.json']);
+    }
+
     plugin.server = {
         notifyClients: function (files) {
             expect(files.sort()).toEqual(['a.js', 'b.js']);
@@ -161,13 +197,22 @@ test('filters out hashed files', function (done) {
             children: []
         }
     };
+
+    if (!isWebpack4) {
+        stats.compilation.assets = {
+            'b.js': { key: 'value' },
+            'a.js': { key: 'value' }
+        };
+        stats.compilation.emittedAssets = new Set(['b.js', 'a.js']);
+    }
+
     plugin.sourceHashs = {
         'b.js': 'Wrong hash',
         'a.js': hashCode('asdf'),
     };
     plugin.server = {
         notifyClients: function (files) {
-            expect(files.sort()).toEqual(['b.js']);
+            expect(files.sort()).toEqual(isWebpack4 ? ['b.js'] : ['a.js', 'b.js']);
             done()
         }
     };
@@ -187,6 +232,16 @@ test('children trigger notification', () => {
             children: [{ hash: 'hash' }]
         }
     };
+
+    if (!isWebpack4) {
+        stats.compilation.assets = {
+            'b.js': { key: 'value' },
+            'a.js': { key: 'value' },
+            'c.css': { key: 'value' }
+        };
+        stats.compilation.emittedAssets = new Set(['b.js', 'a.js']);
+    }
+
     plugin.server = {
         notifyClients: function (files) {
             expect(plugin.lastChildHashes).toEqual(stats.compilation.children.map((child) => child.hash))
