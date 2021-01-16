@@ -39,6 +39,8 @@ module.exports = class LiveReloadWebpackPlugin {
     }
 
     apply(compiler) {
+        this.logger = compiler.getInfrastructureLogger(this.pluginName)
+
         if (this.options.appendScript || isWebpack4) {
             compiler.hooks.compilation.tap(this.pluginName, this.applyCompilation.bind(this));
         }
@@ -69,16 +71,16 @@ module.exports = class LiveReloadWebpackPlugin {
         this.server = servers[this.options.port] = tinylr(this.options);
 
         this.server.listen(this.options.port, (err) => {
-            if (!err || !this.options.quiet) {
-                console.log('Live reload listening on port ' + this.options.port + '\n');
+            if (!err && !this.options.quiet) {
+                this.logger.info('Live reload listening on port ' + this.options.port);
             }
             callback();
         });
 
         this.server.errorListener = (err) => {
-            console.error('Live reload disabled: ' + err.message);
+            this.logger.error('Live reload disabled: ' + err.message);
             if (err.code !== 'EADDRINUSE') {
-                console.error(err.stack);
+                this.logger.error(err.stack);
             }
             callback();
         };

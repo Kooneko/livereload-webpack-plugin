@@ -4,6 +4,7 @@ const LiveReloadWebpackPlugin = require('../src/index');
 const autoloadScript = require('../src/autoloadScript');
 
 const isWebpack4 = version[0] === '4';
+const logger = { info: jest.fn(), error: jest.fn() }
 
 test('default options', () => {
     const plugin = new LiveReloadWebpackPlugin();
@@ -19,6 +20,8 @@ test('not running', () => {
 
 test('running after start', (done) => {
     const plugin = new LiveReloadWebpackPlugin();
+    plugin.logger = logger
+
     plugin.start(null, () => {
         expect(plugin.server).not.toBeNull();
         expect(plugin.server).not.toBeFalsy();
@@ -33,7 +36,9 @@ test('running after start', (done) => {
 
 test('finds available ports', (done) => {
     const plugin1 = new LiveReloadWebpackPlugin();
+    plugin1.logger = logger
     const plugin2 = new LiveReloadWebpackPlugin();
+    plugin2.logger = logger
 
     let count = 0;
     const tryEnd = () => {
